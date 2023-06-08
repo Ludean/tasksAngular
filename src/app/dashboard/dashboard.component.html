@@ -1,0 +1,159 @@
+<section class="vh-100" style="background-color: #eee">
+  <div class="container py-5 h-100">
+    <!--Formulario ingreso tareas-->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title" id="exampleModalLabel">Nueva tarea</h2>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group input-group-lg">
+              <span class="input-group-text" id="inputGroup-sizing-lg"
+                >Titulo</span
+              >
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="title"
+                name="title"
+                required="required"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-lg"
+              />
+            </div>
+            <br />
+            <div class="input-group input-group-lg">
+              <span class="input-group-text" id="inputGroup-sizing-lg"
+                >Descripción</span
+              >
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="description"
+                name="description"
+                required="required"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-lg"
+              />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cerrar
+            </button>
+            <button type="button" class="btn btn-primary" (click)="newTask()">
+              Crear tarea
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Fin formulario-->
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col">
+        <div class="card rounded-3">
+          <div class="card-header">
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1"
+                >Lista de tareas de:</span
+              >
+              <select class="form-select" (change)="onChange($event)">
+                <option value="1">{{ usuarios[0] }}</option>
+                <option value="2">{{ usuarios[1] }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="card-body p-4">
+            <table class="table mb-4">
+              <thead>
+                <tr>
+                  <th scope="col">No.</th>
+                  <th scope="col">Tarea</th>
+                  <th scope="col">Descripción</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let task of dataTask">
+                  <td *ngIf="task.userId == userId">{{ task.id }}</td>
+                  <td *ngIf="task.userId == userId">
+                    <input
+                      class="form-control"
+                      value="{{ task.title }}"
+                      [disabled]="task.status != 'pendiente'"
+                      (change)="editTaskTitle(task.id,$event)"
+                    />
+                  </td>
+                  <td *ngIf="task.userId == userId">
+                    <input
+                      class="form-control"
+                      value="{{ task.description }}"
+                      [disabled]="task.status != 'pendiente'"
+                      (change)="editTaskDescrip(task.id,$event)"
+                    />
+                  </td>
+                  <td *ngIf="task.userId == userId">{{ task.status }}</td>
+                  <td *ngIf="task.userId == userId">
+                    <button
+                      *ngIf="task.status != 'papelera'"
+                      type="button"
+                      class="btn btn-danger btn-circle me-3"
+                      (click)="deleteTask(task.id)"
+                    >
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                    <button
+                      *ngIf="task.status == 'pendiente'"
+                      type="button"
+                      class="btn btn-success btn-circle"
+                      (click)="updateTask(task.id)"
+                    >
+                      <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card-footer">
+            <div class="row">
+              <div class="col"></div>
+              <div class="col"></div>
+              <div class="col text-end">
+                <button
+                  type="button"
+                  class="btn btn-info btn-circle btn-lg me-2"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                >
+                  <i class="fa-solid fa-check"></i>
+                </button>
+                <button type="button" class="btn btn-warning btn-circle btn-lg">
+                  <i class="fa-solid fa-paperclip"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
